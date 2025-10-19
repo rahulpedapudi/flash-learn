@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { PlusIcon, Trash2Icon, UploadIcon } from "lucide-react"
 
 import { Modal } from "@/components/ui/modal"
@@ -47,7 +47,7 @@ export const DeckFormModal = ({
   const [jsonError, setJsonError] = useState<string | null>(null)
   const [tabValue, setTabValue] = useState<"manual" | "json">("manual")
 
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setFormState(formDefaults)
     setCards([])
     setCardDraft(cardDefaults)
@@ -55,7 +55,7 @@ export const DeckFormModal = ({
     setJsonInput("")
     setJsonError(null)
     setTabValue("manual")
-  }
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -86,7 +86,7 @@ export const DeckFormModal = ({
     } else {
       resetState()
     }
-  }, [open, mode, initialDeck?.id])
+  }, [open, mode, initialDeck, resetState])
 
   const handleClose = () => {
     resetState()

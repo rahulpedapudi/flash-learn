@@ -9,7 +9,6 @@ import {
   HomeIcon,
   MenuIcon,
   SparklesIcon,
-  UserIcon,
   XIcon,
 } from "lucide-react"
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs"
@@ -36,6 +35,7 @@ const isActivePath = (pathname: string, href: string) => {
 export const AppLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const { user } = useUser()
 
   if (pathname === "/") {
     return <div className="min-h-screen bg-background">{children}</div>
@@ -74,8 +74,6 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
       </div>
     </>
   )
-
-  const { user } = useUser()
 
   return (
     <div className="flex min-h-screen bg-muted/30">

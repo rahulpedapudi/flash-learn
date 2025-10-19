@@ -2,14 +2,7 @@
 
 import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import {
-  AlertCircleIcon,
-  ArrowLeftIcon,
-  CheckCircle2Icon,
-  Loader2Icon,
-  RepeatIcon,
-  SparklesIcon,
-} from "lucide-react";
+import { ArrowLeftIcon, CheckCircle2Icon, Loader2Icon, RepeatIcon, SparklesIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -60,7 +53,7 @@ const StudySessionPage = () => {
     setQueue(buildInitialQueue(selectedDeck));
     setIsAnswerVisible(false);
     setCompletedCount(0);
-  }, [selectedDeck?.id]);
+  }, [selectedDeck]);
 
   useEffect(() => {
     if (!selectedDeck) return;
@@ -72,6 +65,12 @@ const StudySessionPage = () => {
       setQueue(buildInitialQueue(selectedDeck));
       setIsAnswerVisible(false);
     }
+  }, [queue, selectedDeck]);
+
+  const currentCard = useMemo(() => {
+    if (!selectedDeck || queue.length === 0) return undefined;
+    const cardId = queue[0];
+    return selectedDeck.cards.find((card) => card.id === cardId);
   }, [queue, selectedDeck]);
 
   if (!deckId) {
@@ -104,12 +103,6 @@ const StudySessionPage = () => {
       </div>
     );
   }
-
-  const currentCard = useMemo(() => {
-    if (queue.length === 0) return undefined;
-    const cardId = queue[0];
-    return selectedDeck.cards.find((card) => card.id === cardId);
-  }, [queue, selectedDeck]);
 
   const handleRevealAnswer = () => {
     setIsAnswerVisible(true);

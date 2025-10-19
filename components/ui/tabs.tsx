@@ -20,14 +20,17 @@ export const Tabs = ({ defaultValue, value, onValueChange, children, className }
   const [internalValue, setInternalValue] = React.useState(defaultValue)
   const currentValue = value ?? internalValue
 
-  const handleChange = (next: string) => {
-    setInternalValue(next)
-    onValueChange?.(next)
-  }
+  const handleChange = React.useCallback(
+    (next: string) => {
+      setInternalValue(next)
+      onValueChange?.(next)
+    },
+    [onValueChange],
+  )
 
   const contextValue = React.useMemo(
     () => ({ value: currentValue, setValue: handleChange }),
-    [currentValue],
+    [currentValue, handleChange],
   )
 
   return (
