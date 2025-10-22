@@ -53,7 +53,7 @@ const StudySessionPage = () => {
     setQueue(buildInitialQueue(selectedDeck));
     setIsAnswerVisible(false);
     setCompletedCount(0);
-  }, [selectedDeck]);
+  }, [selectedDeck?.id, selectedDeck?.cards.length]);
 
   useEffect(() => {
     if (!selectedDeck) return;
